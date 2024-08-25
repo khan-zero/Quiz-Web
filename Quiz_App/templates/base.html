@@ -1,0 +1,19 @@
+<html>
+
+{% load static %}
+
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Your Skills</title>
+        <link rel="stylesheet" href="{% static 'stylesheet.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+    </head>
+
+    <body>
+        {% block content %}
+        {% endblock %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- <script src="{% static 'script.js' %}"></script> -->
+    </body>
+
+</html>

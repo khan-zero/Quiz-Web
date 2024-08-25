@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="quiz">
+
+    <div id="info">
+        <div id="score">Score: 0</div>
+        <div id="ques-left">Question: 1/20</div>
+    </div>
+
+    <div id="ques-view"></div>
+
+    <div class="question">
+        {% for question in questions %}
+            <h1 class="question-text" style="display: none;">{{ question.name }}</h1>
+        {% endfor %}
+    </div>
+
+    <div class="choice">
+        {% for opinion in opinions %}
+            <div class="options" style="display: none;">
+                <input type="radio" name="options" value="option{{ forloop.counter }}" id="opt{{ forloop.counter }}">
+                <label for="opt{{ forloop.counter }}">{{ opinion.name }}</label>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="ans-btn">
+        <button type="button" class="submit-answer">Submit Answer</button>
+        <a href="#display-final-score" type="button" class="view-results">View Results</a>
+    </div>
+
+</div>
+
+<script>
+    let currentQuestionIndex = 0;
+    const questions = document.querySelectorAll('.question-text');
+    const options = document.querySelectorAll('.options');
+
+    function showQuestion(index) {
+        if (index < questions.length) {
+            questions[index].style.display = 'block';
+            for (let i = index * 4; i < (index * 4) + 4; i++) {
+                if (options[i]) options[i].style.display = 'block';
+            }
+        }
+    }
+
+    document.querySelector('.submit-answer').addEventListener('click', function() {
+        // Hide the current question and its options
+        questions[currentQuestionIndex].style.display = 'none';
+        for (let i = currentQuestionIndex * 4; i < (currentQuestionIndex * 4) + 4; i++) {
+            if (options[i]) options[i].style.display = 'none';
+        }
+
+        // Move to the next question
+        currentQuestionIndex++;
+        showQuestion(currentQuestionIndex);
+    });
+
+    // Show the first question on page load
+    showQuestion(0);
+</script>
+
+{% endblock %}

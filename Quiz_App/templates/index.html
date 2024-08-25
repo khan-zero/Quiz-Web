@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div id="wrapper">
+        <nav>
+        <ul>
+            <li id="about">About Us</li>
+            <li><a href="https://github.com/khan-zero" class="mail">Contact Us</a></li>
+        </ul>
+        </nav>
+        <div id="form-box">
+            <form id="quizForm">
+                <select id="language" name="quiz_id">
+                    {% for quiz in quizzes %}
+                        <option value="{{ quiz.id }}">{{ quiz.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" class="choose-lang" onclick="submitQuizForm()">Test Skills</button>
+            </form>
+            <br>
+            <div>
+                <a href="{% url 'create' %}" type="button" class="submit-answer">Create Something</a>
+            </div>
+        </div>
+
+        <script>
+        function submitQuizForm() {
+            var quizId = document.getElementById('language').value;
+            window.location.href = "{% url 'quiz' 0 %}".replace('0', quizId);
+        }
+        </script>
+        </div>
+
+{% endblock %}
