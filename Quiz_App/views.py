@@ -3,6 +3,9 @@ from django.template.context_processors import request
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 from .models import Quiz, QuestionSet, Question, Option, Answer, AnswerDetail
 from .forms import QuestionForm
@@ -28,6 +31,7 @@ def index(request):
 
     return render(request, 'index.html', context)
 
+@login_required
 def quiz(request, id):
 
     quiz = Quiz.objects.get(id=id)
@@ -52,10 +56,12 @@ def quiz(request, id):
 
     return render(request, 'quiz.html', context)
 
+@login_required
 def create(request):
     return render(request, 'create_question.html')
 
 
+@login_required
 def create_quiz(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -70,7 +76,8 @@ def create_quiz(request):
     users = User.objects.all()
     return render(request, 'create_quiz.html', {'users': users})
 
-# Create a QuestionSet
+
+@login_required
 def create_questionset(request):
     if request.method == 'POST':
         quiz_id = request.POST.get('quiz')
@@ -83,7 +90,8 @@ def create_questionset(request):
     quizzes = Quiz.objects.all()
     return render(request, 'create_questionset.html', {'quizzes': quizzes})
 
-# Create a Question
+
+@login_required
 def create_question(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -97,7 +105,8 @@ def create_question(request):
     question_sets = QuestionSet.objects.all()
     return render(request, 'create_question.html', {'question_sets': question_sets})
 
-# Create an Option
+
+@login_required
 def create_option(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -112,7 +121,8 @@ def create_option(request):
     questions = Question.objects.all()
     return render(request, 'create_option.html', {'questions': questions})
 
-# Submit an Answer
+
+@login_required
 def submit_answer(request):
     if request.method == 'POST':
         quiz_id = request.POST.get('quiz')
@@ -130,7 +140,8 @@ def submit_answer(request):
     users = User.objects.all()
     return render(request, 'submit_answer.html', {'quizzes': quizzes, 'users': users})
 
-# Submit Answer Details
+
+@login_required
 def submit_answerdetail(request):
     if request.method == 'POST':
         answer_id = request.POST.get('answer')
@@ -154,3 +165,30 @@ def submit_answerdetail(request):
     })
 
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect('login')

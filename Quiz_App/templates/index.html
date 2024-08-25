@@ -5,7 +5,12 @@
 <div id="wrapper">
         <nav>
         <ul>
-            <li id="about">About Us</li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}" class="mail">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}" class="mail">Login</a></li>
+                <li><a href="{% url 'register' %}" class="mail">Register</a></li>
+            {% endif %}
             <li><a href="https://github.com/khan-zero" class="mail">Contact Us</a></li>
         </ul>
         </nav>

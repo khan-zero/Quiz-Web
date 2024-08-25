@@ -1,0 +1,76 @@
+<html>
+
+{% load static %}
+    <style>
+    /* Background image for the entire page */
+    body {
+        background-image: url("{% static 'hero-img.jpg' %}");
+        background-size: cover; /* Make the image cover the entire page */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        margin: 0; /* Remove default margins */
+        padding: 0; /* Remove default padding */
+    }
+
+    /* Styling for containers */
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 8px;
+        max-width: 600px; /* Limit the width of the container */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    }
+
+    /* Styling for form elements */
+    .choose-lang {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        padding: 8px;
+        margin: 4px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    button.choose-lang {
+        background-color: #4CAF50; /* Green background */
+        color: white; /* White text */
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button.choose-lang:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+
+    h1 {
+        color: #333; /* Dark grey color for headers */
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: #ddd;
+        margin: 20px 0;
+    }
+</style>
+
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Your Skills</title>
+    </head>
+
+    <body>
+        {% block content %}
+        {% endblock %}
+        <!-- <script src="{% static 'script.js' %}"></script> -->
+    </body>
+
+</html>

@@ -11,4 +11,8 @@ urlpatterns = [
     path('create_option/', views.create_option, name='create_option'),
     path('submit_answer/', views.submit_answer, name='submit_answer'),
     path('submit_answerdetail/', views.submit_answerdetail, name='submit_answerdetail'),
+
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
 ]
